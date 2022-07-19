@@ -4,7 +4,7 @@
 <body>
     this is the login page
     <form action="/login" name="login_form" id="login_form" method="PSOT">
-        <input type="email" placeholder="enter email" name="login_email" id="login_email">
+        <input type="text" placeholder="enter email" name="login_email" id="login_email">
         <input type="password" placeholder="enter password" name="login_passwd" id="login_passwd">
        <button type="submit">login</button>
     </form>
@@ -12,6 +12,7 @@
     <div id="response_message"></div>
     <%- include('partials/bootstrap/bootstrap_js'); -%>
 </body>
+
 <script>
     var response_message = document.getElementById('response_message');
     response_message.innerHTML="";
@@ -21,17 +22,21 @@
         const login_email = document.getElementById('login_email').value;
         const login_passwd = document.getElementById('login_passwd').value;
         console.log(login_email);
-        console.log(login_email+" "+login_passwd);
+        console.log("email: "+login_email+" password"+login_passwd);
         try {
             const res = await fetch('/login',{  //res gets the response after sending using fetch
                 method: 'POST',
-                body: JSON.stringify({login_email,login_passwd}),
+                body: JSON.stringify({"email":login_email,"passwd":login_passwd}),
                 headers: {'Content-Type':'application/json'}
             });
 
-            const data = await res.json(); //waiting for response from server
-            response_message.innerHTML="<h3>"+data+"</h3>";
-            console.log(data);
+            const res_data = await res.json(); //waiting for response from server
+            response_message.innerHTML="<h3>"+res_data['data']+"</h3>";
+            if(res_data['data'] == "success")
+            {
+                window.location = "/dashboard";
+            }
+            // console.log(data);
         } catch (error) {
             console.log(error);
         }
