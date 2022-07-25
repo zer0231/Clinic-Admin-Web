@@ -3,7 +3,6 @@ const routes = require('./Routes/authRoutes');
 const cookieParser = require('cookie-parser')
 const app = express();	
 const port = 2020;
-const checkUser = require('./middleware/auth');
 
 app.use(express.static('public'));
 
@@ -18,8 +17,6 @@ app.use(cookieParser())
 //listening server
 app.listen(port,
 	console.log("listening to port "+port));
-
-	// app.use(checkUser);
 
 //using routes
 app.use(routes);
